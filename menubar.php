@@ -1,6 +1,3 @@
-<?php
-    include("header.php");
-?>
 <a href="#menu-toggle" class="btn btn-primary btn-lg" id="menu-toggle"><span class="glyphicon glyphicon-menu-hamburger"></span></a><br/>
 
 
@@ -17,9 +14,6 @@
                     <a href="index.php">Home</a>
                 </li>
                 <li>
-                    <a href="student.php">Student Record</a>
-                </li>
-                <li>
                     <a href="teacher.php">Teachers</a>
                 </li>
                 <li>
@@ -31,11 +25,26 @@
                 <li>
                     <a href="room.php">Room</a>
                 </li>
-                <li>
-                    <a href="#">About</a>
+				<li>
+                    <a href="login.php">User</a>
                 </li>
                 <li>
-                    <a href="#">Contact</a>
+                    <a href="admin_login.php">Admin</a>
+                </li>
+                <li>
+                    <a href="result.php">Result</a>
+                </li>
+                <li>
+                    <a href="notice.php">Notice</a>
+                </li>
+                <li>
+                    <a href="about.php">About</a>
+                </li>
+                <li>
+                    <a href="contact.php">Contact</a>
+                </li>
+                <li>
+                    <a href="teacher_login.php">Teacher Login</a>
                 </li>
             </ul>
 			

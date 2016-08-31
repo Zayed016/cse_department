@@ -1,4 +1,4 @@
-<?php require_once'header.php';?>
+<?php include("header.php");?>
 
 <div class="container-fluid">
 	<div class="row" id="wrapper">
@@ -7,8 +7,8 @@
 		<div class="panel panel-default">
 		<div class="panel-body">
 		<center>
-		<h1 style="color:#0B3861; font-family:Impact;">Department of Computer Science & Engineering</h1>
-		<h3 style="color:#0B615E; font-family:Elephant;">University of Rajshahi</h3>
+		<h1 style="color:#0B3861; font-family:Impact;">University of Rajshahi</h1>
+		<h3 style="color:#0B615E; font-family:Elephant;">Department of Computer Science & Engineering</h3>
 		<img class="img-circle" alt="Image Preview" src="pics/logo.png" />
 		</center>
 		</div>
@@ -16,7 +16,7 @@
 		<div class="panel panel-default">
 				<div class="panel-body">
 				<div class="media">
-				<a href="#" class="pull-left"><img alt="Bootstrap Media Preview" src="pics/a.jpg" class="media-object" /></a>
+				<a href="#" class="pull-left"><img alt="Bootstrap Media Preview" src="pics/chairman.jpg" class="media-object" /></a>
 				<div class="media-body">
 					<h4 class="media-heading" style="font-family:Bodoni MT Condensed; color:#0489B1;">
 						Message from Chairman

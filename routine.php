@@ -1,4 +1,4 @@
-<?php require_once'header.php';?>
+<?php include("header.php");?>
 <?php include('db_con.php');?>
 
 
@@ -52,160 +52,204 @@
 </form>
 
 
+<script language="javascript">
+function Clickheretoprint()
+{ 
+  var disp_setting="toolbar=yes,location=no,directories=yes,menubar=yes,"; 
+      disp_setting+="scrollbars=yes,width=400, height=400, left=100, top=25"; 
+  var content_vlue = document.getElementById("print_content").innerHTML; 
+  
+  var docprint=window.open("","",disp_setting); 
+   docprint.document.open(); 
+   docprint.document.write('<html><head><title>Inel Power System</title>'); 
+   docprint.document.write('</head><body onLoad="self.print()" style="width: 400px; font-size:12px; font-family:arial;">');          
+   docprint.document.write(content_vlue);          
+   docprint.document.write('</body></html>'); 
+   docprint.document.close(); 
+   docprint.focus(); 
+}
+</script>
+
 <?php
+if(isset($_POST['submit'])){
+      echo "<div class='col-sm-12'>";
+      echo "<a href='javascript:Clickheretoprint()' class='btn btn-info' style='float:right;'>Print</a>";
+      echo "</div>";
+      
+      echo "<div id='print_content'>";
+      echo "<table class='table table-bordered'>";
+      echo "<thead>";
+      echo "<tr>";
+      echo "<th>Day</th>";
+      echo "<th>Year</th>";
+      echo "<th>Session</th>";
+      echo "<th>Time</th>";
+      echo "<th>Theory/Lab</th>";
+      echo "<th>Course Code</th>";
+      echo "<th>Course Name</th>";
+      echo "<th>Teacher</th>";
+      echo "<th>Room NO.</th>";
+      echo "<th>Room Name</th>";
+      echo "</tr>";
+      echo "</thead>";
 
   if ($s=='alls' && $wk=='allw'){
   	$qall=mysqli_query($conn,"SELECT * FROM routine");
+      
+      
   	while ($all=mysqli_fetch_array($qall)) {
-  		echo "<hr>";
-  		echo "<div class='container-fluid' style='background-color:#D8D8D8;'>";
-		echo "<div class='row'>";
-		echo "<div class='col-sm-12'>";
-		echo "<br/>";
-  		echo "<b>Week: &nbsp;</b>".$all['week']."<br/>";
-  		echo "<b>Year: &nbsp;</b>".$all['year']."<br>";
-  		echo "<b>Session: &nbsp;</b>".$all['session']."<br/>";
-  		echo "<b>Type: &nbsp;</b>".$all['type']."<br/>";
-  		echo "<b>Time: &nbsp;</b>".$all['time']."<br/>";
+      
+      echo "<tbody>";
+      echo "<tr class='success'>";
+      echo "<td>".$all['week']."</td>";
+      echo "<td>".$all['year']."</td>";
+      echo "<td>".$all['session']."</td>";
+      echo "<td>".$all['time']."</td>";
+  		echo "<td>".$all['type']."</td>";
+  		
 
-
-  		$p1=$all['course_id'];
-  	$co1=mysqli_query($conn,"SELECT course_id,name FROM course where co_id=$p1");
-  	while ($a1=mysqli_fetch_array($co1)) {
-  		echo "<b>Course ID: &nbsp;</b>".$a1['course_id']."<br/>";
-  		echo "<b>Course Name: &nbsp;</b>".$a1['name']."<br/>";
-  	}
+  		$p1=$all['course_code'];
+  	$co1=mysqli_query($conn,"SELECT course_code,name FROM course where co_id=$p1");
+  	$a1=mysqli_fetch_array($co1);
+  		echo "<td>".$a1['course_code']."</td>";
+  		echo "<td>".$a1['name']."</td>";
+  	
   	$q1=$all['teacher_id'];
-  	$t1=mysqli_query($conn, "SELECT name FROM teacher WHERE t_id='$q1'");
-  	while ($b1=mysqli_fetch_array($t1)) {
-  		echo "<b>Teacher Name: &nbsp;</b>".$b1['name']."<br/>";
-   }
+  	$t1=mysqli_query($conn, "SELECT name FROM teachers WHERE t_id='$q1'");
+  	$b1=mysqli_fetch_array($t1);
+  		echo "<td>".$b1['name']."</td>";
+   
 
    $r1=$all['room_no'];
   	$u1=mysqli_query($conn, "SELECT room_no,room_name FROM room WHERE room_id=$r1");
-  	while ($c1=mysqli_fetch_array($u1)) {
-  		echo "<b>Room NO: &nbsp;</b>".$c1['room_no']."<br/>";
-  		echo "<b>Room Name: &nbsp;</b>".$c1['room_name'];
-  		echo "</div>";
-		echo "</div>";
-		echo "<br/>";
-		echo "</div>";
-}
-}
-  } else if ($s!='alls'&& $wk=='allw'){
+  	$c1=mysqli_fetch_array($u1);
+  		echo "<td>".$c1['room_no']."</td>";
+  		echo "<td>".$c1['room_name']."</td>";
+      echo "</tr>";
+      echo "</tbody>";
+  		
+
+}     
+  }
+
+
+   else if ($s!='alls'&& $wk=='allw'){
    $qwk=mysqli_query($conn,"SELECT * FROM routine where session='$s'");
+
+
    while ($week=mysqli_fetch_array($qwk)) {
-  		echo "<hr>";
-  		echo "<div class='container-fluid' style='background-color:#D8D8D8;'>";
-		echo "<div class='row'>";
-		echo "<div class='col-sm-12'>";
-		echo "<br/>";
-  		echo "<b>Week: &nbsp;</b>".$week['week']."<br/>";
-  		echo "<b>Year: &nbsp;</b>".$week['year']."<br>";
-  		echo "<b>Session: &nbsp;</b>".$week['session']."<br/>";
-  		echo "<b>Type: &nbsp;</b>".$week['type']."<br/>";
-  		echo "<b>Time: &nbsp;</b>".$week['time']."<br/>";
+  		echo "<tbody>";
+      echo "<tr class='success'>";
+      echo "<td>".$week['week']."</td>";
+      echo "<td>".$week['year']."</td>";
+      echo "<td>".$week['session']."</td>";
+      echo "<td>".$week['time']."</td>";
+      echo "<td>".$week['type']."</td>";
 
 
-  		$p2=$week['course_id'];
-  	$co2=mysqli_query($conn,"SELECT course_id,name FROM course where co_id=$p2");
-  	while ($a2=mysqli_fetch_array($co2)) {
-  		echo "<b>Course ID: &nbsp;</b>".$a2['course_id']."<br/>";
-  		echo "<b>Course Name: &nbsp;</b>".$a2['name']."<br/>";
-  	}
+  	$p2=$week['course_code'];
+  	$co2=mysqli_query($conn,"SELECT course_code,name FROM course where co_id=$p2");
+  	$a2=mysqli_fetch_array($co2);
+  		echo "<td>".$a2['course_code']."</td>";
+      echo "<td>".$a2['name']."</td>";
+
   	$q2=$week['teacher_id'];
-  	$t2=mysqli_query($conn, "SELECT name FROM teacher WHERE t_id=$q2");
-  	while ($b2=mysqli_fetch_array($t2)) {
-  		echo "<b>Teacher Name: &nbsp;</b>".$b2['name']."<br/>";
+  	$t2=mysqli_query($conn, "SELECT name FROM teachers WHERE t_id=$q2");
+  	$b2=mysqli_fetch_array($t2);
+  		echo "<td>".$b2['name']."</td>";
 
-  	}
   	$r2=$week['room_no'];
   	$u2=mysqli_query($conn, "SELECT room_no,room_name FROM room WHERE room_id=$r2");
-  	while ($c2=mysqli_fetch_array($u2)) {
-  		echo "<b>Room NO: &nbsp;</b>".$c2['room_no']."<br/>";
-  		echo "<b>Room Name: &nbsp;</b>".$c2['room_name'];
-  		echo "</div>";
-		echo "</div>";
-		echo "<br/>";
-		echo "</div>";
-}
+  	$c2=mysqli_fetch_array($u2);
+  		echo "<td>".$c2['room_no']."</td>";
+      echo "<td>".$c2['room_name']."</td>";
+      echo "</tr>";
+      echo "</tbody>";
   }
-  }else if ($s=='alls' && $wk!='allw'){
+      
+  }
+
+
+  else if ($s=='alls' && $wk!='allw'){
    $qse=mysqli_query($conn,"SELECT * FROM routine where week='$wk'");
+
    while ($sess=mysqli_fetch_array($qse)) {
-  		echo "<hr>";
-  		echo "<div class='container-fluid' style='background-color:#D8D8D8;'>";
-		echo "<div class='row'>";
-		echo "<div class='col-sm-12'>";
-		echo "<br/>";
-  		echo "<b>Week: &nbsp;</b>".$sess['week']."<br/>";
-  		echo "<b>Year: &nbsp;</b>".$sess['year']."<br>";
-  		echo "<b>Session: &nbsp;</b>".$sess['session']."<br/>";
-  		echo "<b>Type: &nbsp;</b>".$sess['type']."<br/>";
-  		echo "<b>Time: &nbsp;</b>".$sess['time']."<br/>";
+  		
+      echo "<tbody>";
+      echo "<tr class='success'>";
+      echo "<td>".$sess['week']."</td>";
+      echo "<td>".$sess['year']."</td>";
+      echo "<td>".$sess['session']."</td>";
+      echo "<td>".$sess['time']."</td>";
+      echo "<td>".$sess['type']."</td>";
 
 
-  		$p3=$sess['course_id'];
-  	$co3=mysqli_query($conn,"SELECT course_id,name FROM course where co_id=$p3");
-  	while ($a3=mysqli_fetch_array($co3)) {
-  		echo "<b>Course ID: &nbsp;</b>".$a3['course_id']."<br/>";
-  		echo "<b>Course Name: &nbsp;</b>".$a3['name']."<br/>";
-  	}
+  		$p3=$sess['course_code'];
+  	$co3=mysqli_query($conn,"SELECT course_code,name FROM course where co_id=$p3");
+  	$a3=mysqli_fetch_array($co3);
+  		echo "<td>".$a3['course_code']."</td>";
+      echo "<td>".$a3['name']."</td>";
+
   	$q3=$sess['teacher_id'];
-  	$t3=mysqli_query($conn, "SELECT name FROM teacher WHERE t_id=$q3");
-  	while ($b3=mysqli_fetch_array($t3)) {
-  		echo "<b>Teacher Name: &nbsp;</b>".$b3['name']."<br/>";
+  	$t3=mysqli_query($conn, "SELECT name FROM teachers WHERE t_id=$q3");
+  	$b3=mysqli_fetch_array($t3);
+  		echo "<td>".$b3['name']."</td>";
 
-  	}
   	$r3=$sess['room_no'];
   	$u3=mysqli_query($conn, "SELECT room_no,room_name FROM room WHERE room_id=$r3");
-  	while ($c3=mysqli_fetch_array($u3)) {
-  		echo "<b>Room NO: &nbsp;</b>".$c3['room_no']."<br/>";
-  		echo "<b>Room Name: &nbsp;</b>".$c3['room_name'];
-  		echo "</div>";
-		echo "</div>";
-		echo "<br/>";
-		echo "</div>";
-}
+  	$c3=mysqli_fetch_array($u3);
+  		echo "<td>".$c3['room_no']."</td>";
+      echo "<td>".$c3['room_name']."</td>";
+      echo "</tr>";
+      echo "</tbody>";
+      
+
   }
-  }else {
+  }
+
+
+  else {
   	$other=mysqli_query($conn,"SELECT * FROM routine where session='$s' AND week='$wk'");
+
+
   	while ($filter=mysqli_fetch_array($other)) {
-  		echo "<hr>";
-  		echo "<div class='container-fluid' style='background-color:#D8D8D8;'>";
-		echo "<div class='row'>";
-		echo "<div class='col-sm-12'>";
-		echo "<br/>";
-  		echo "<b>Week: &nbsp;</b>".$filter['week']."<br/>";
-  		echo "<b>Year: &nbsp;</b>".$filter['year']."<br>";
-  		echo "<b>Session: &nbsp;</b>".$filter['session']."<br/>";
-  		echo "<b>Type: &nbsp;</b>".$filter['type']."<br/>";
-  		echo "<b>Time: &nbsp;</b>".$filter['time']."<br/>";
+  		
+      echo "<tbody>";
+      echo "<tr class='success'>";
+      echo "<td>".$filter['week']."</td>";
+      echo "<td>".$filter['year']."</td>";
+      echo "<td>".$filter['session']."</td>";
+      echo "<td>".$filter['time']."</td>";
+      echo "<td>".$filter['type']."</td>";
 
-  		$p4=$filter['course_id'];
-  		$co4=mysqli_query($conn,"SELECT course_id,name FROM course where co_id=$p4");
-  	while ($a4=mysqli_fetch_array($co4)) {
-  		echo "<b>Course ID: &nbsp;</b>".$a4['course_id']."<br/>";
-  		echo "<b>Course Name: &nbsp;</b>".$a4['name']."<br/>";
-  	}
+  		$p4=$filter['course_code'];
+  		$co4=mysqli_query($conn,"SELECT course_code,name FROM course where co_id=$p4");
+  	$a4=mysqli_fetch_array($co4);
+  		echo "<td>".$a4['course_code']."</td>";
+      echo "<td>".$a4['name']."</td>";
+  	
   	$q4=$filter['teacher_id'];
-  	$t4=mysqli_query($conn, "SELECT name FROM teacher WHERE t_id=$q4");
-  	while ($b4=mysqli_fetch_array($t4)) {
-  		echo "<b>Teacher Name: &nbsp;</b>".$b4['name']."<br/>";
+  	$t4=mysqli_query($conn, "SELECT name FROM teachers WHERE t_id=$q4");
+  	$b4=mysqli_fetch_array($t4);
+  		echo "<td>".$b4['name']."</td>";
 
 
-  	}
+  	
   	$r4=$filter['room_no'];
   	$u4=mysqli_query($conn, "SELECT room_no,room_name FROM room WHERE room_id=$r4");
-  	while ($c4=mysqli_fetch_array($u4)) {
-  		echo "<b>Room NO: &nbsp;</b>".$c4['room_no']."<br/>";
-  		echo "<b>Room Name: &nbsp;</b>".$c4['room_name'];
-  		echo "</div>";
-		echo "</div>";
-		echo "<br/>";
-		echo "</div>";
+  	$c4=mysqli_fetch_array($u4);
+  		echo "<td>".$c4['room_no']."</td>";
+      echo "<td>".$c4['room_name']."</td>";
+      echo "</tr>";
+      echo "</tbody>";
+      
+
 }
+      
 }
+      echo "</table>";
+      echo "</div>";
+      
 }
 
 ?>
